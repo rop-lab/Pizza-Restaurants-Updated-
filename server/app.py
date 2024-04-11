@@ -78,5 +78,20 @@ def create_restaurant_pizza():
 
     return jsonify(pizza.serialize()), 201
 
+#POST Method to add a new restaurant
+@app.route("/restaurants", methods=["POST"])
+def create_restaurant():
+    new_restaurant = Restaurant(  
+        name=request.form.get('name'),
+        address=request.form.get("address"),
+    )
+    db.session.add(new_restaurant)
+    db.session.commit()
+    
+    return jsonify({'message': 'New restaurant created', 'data': new_restaurant.to_dict()})
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
